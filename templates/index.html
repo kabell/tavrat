@@ -32,25 +32,25 @@ Kabell je dlžný Jančimu: {{ janci_to_kabell }} kč<br/>
 
 Kabell:<br/>
 <table>
-<tr><td>Kto</td><td>Komu</td><td>Poznamka</td><td>Kolko</td></tr>
+<tr><td>Kto</td><td>Komu</td><td>Poznamka</td><td>Kolko</td><td>Kedy</td></tr>
 {% for item in kabell %}
-    <tr><td>{{ item.kto }} </td><td>{{ item.komu }}</td><td>{{ item.poznamka }}</td><td>{{ item.kolko }}</td><td><a href="/delete/{{ item.id }}">Zmazat</a></td></tr>
+    <tr><td>{{ item.kto }} </td><td>{{ item.komu }}</td><td>{{ item.poznamka }}</td><td>{{ item.kolko }}</td><td>{{ item.datum }}</td><td><a href="/delete/{{ item.id }}">Zmazat</a></td></tr>
 {% endfor %}
 </table><br/><br/>
 
 Filip:<br/>
 <table>
-<tr><td>Kto</td><td>Komu</td><td>Poznamka</td><td>Kolko</td></tr>
+<tr><td>Kto</td><td>Komu</td><td>Poznamka</td><td>Kolko</td><td>Kedy</td></tr>
 {% for item in filip %}
-    <tr><td>{{ item.kto }} </td><td>{{ item.komu }}</td><td>{{ item.poznamka }}</td><td>{{ item.kolko }}</td><td><a href="/delete/{{ item.id }}">Zmazat</a></td></tr>
+    <tr><td>{{ item.kto }} </td><td>{{ item.komu }}</td><td>{{ item.poznamka }}</td><td>{{ item.kolko }}</td><td>{{ item.datum }}</td><td><a href="/delete/{{ item.id }}">Zmazat</a></td></tr>
 {% endfor %}
 </table><br/><br/>
 
 Janci:<br/>
 <table>
-<tr><td>Kto</td><td>Komu</td><td>Poznamka</td><td>Kolko</td></tr>
+<tr><td>Kto</td><td>Komu</td><td>Poznamka</td><td>Kolko</td><td>Kedy</td></tr>
 {% for item in janci %}
-    <tr><td>{{ item.kto }} </td><td>{{ item.komu }}</td><td>{{ item.poznamka }}</td><td>{{ item.kolko }}</td><td><a href="/delete/{{ item.id }}">Zmazat</a></td></tr>
+    <tr><td>{{ item.kto }} </td><td>{{ item.komu }}</td><td>{{ item.poznamka }}</td><td>{{ item.kolko }}</td><td>{{ item.datum }}</td><td><a href="/delete/{{ item.id }}">Zmazat</a></td></tr>
 {% endfor %}
 </table>
 

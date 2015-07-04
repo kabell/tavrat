@@ -1,6 +1,6 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from models import Item
+from tavrat.models import Item
 import datetime
 
 FILIP = 'filip'
@@ -51,10 +51,13 @@ def index(request,messages=[]):
                 janci_to_kabell += x.kolko
             janci.append(x)
 
+
+
     najm = min([kabell_to_filip,filip_to_janci,janci_to_kabell])
     kabell_to_filip -= najm
     filip_to_janci -= najm
     janci_to_kabell -=najm
+
 
     najv = max([kabell_to_filip,filip_to_janci,janci_to_kabell])
 
