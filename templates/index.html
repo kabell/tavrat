@@ -1,0 +1,59 @@
+<html>
+<body>
+<form method="post" action="/">
+    Kto <select name="kto">
+            <option value="filip">Filip</option>
+            <option value="janci">Janči</option>
+            <option value="kabell">Kabell</option>
+        </select>
+
+    Komu <select name="komu">
+            <option value="filip">Filip</option>
+            <option value="janci">Janči</option>
+            <option value="kabell">Kabell</option>
+        </select>
+    Poznámka <input type="text" name="poznamka"/>
+    Kolko <input type="text" name="kolko"/>
+    <input type="submit" value="odosli">
+
+</form>
+
+{% if smer == 1 %}
+Kabell je dlžný Filipovi: {{ kabell_to_filip }} kč <br/>
+Filip je dlžný Jančimu: {{ filip_to_janci }} kč<br/>
+Janči je dlžný Kabellovi: {{ janci_to_kabell }} kč<br/>
+{% elif smer == 2 %}
+    Filip je dlžný Kabellovi: {{ kabell_to_filip }} kč <br/>
+Janči je dlžný Filipovi: {{ filip_to_janci }} kč<br/>
+Kabell je dlžný Jančimu: {{ janci_to_kabell }} kč<br/>
+
+{% endif %}
+<br/>
+
+Kabell:<br/>
+<table>
+<tr><td>Kto</td><td>Komu</td><td>Poznamka</td><td>Kolko</td></tr>
+{% for item in kabell %}
+    <tr><td>{{ item.kto }} </td><td>{{ item.komu }}</td><td>{{ item.poznamka }}</td><td>{{ item.kolko }}</td><td><a href="/delete/{{ item.id }}">Zmazat</a></td></tr>
+{% endfor %}
+</table><br/><br/>
+
+Filip:<br/>
+<table>
+<tr><td>Kto</td><td>Komu</td><td>Poznamka</td><td>Kolko</td></tr>
+{% for item in filip %}
+    <tr><td>{{ item.kto }} </td><td>{{ item.komu }}</td><td>{{ item.poznamka }}</td><td>{{ item.kolko }}</td><td><a href="/delete/{{ item.id }}">Zmazat</a></td></tr>
+{% endfor %}
+</table><br/><br/>
+
+Janci:<br/>
+<table>
+<tr><td>Kto</td><td>Komu</td><td>Poznamka</td><td>Kolko</td></tr>
+{% for item in janci %}
+    <tr><td>{{ item.kto }} </td><td>{{ item.komu }}</td><td>{{ item.poznamka }}</td><td>{{ item.kolko }}</td><td><a href="/delete/{{ item.id }}">Zmazat</a></td></tr>
+{% endfor %}
+</table>
+
+
+</body>
+</html>
