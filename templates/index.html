@@ -27,13 +27,13 @@
 </form>
 <h3>
 {% if smer == 1 %}
-Kabell je dlžný Filipovi: {{ kabell_to_filip }} kč <br/>
-Filip je dlžný Jančimu: {{ filip_to_janci }} kč<br/>
-Janči je dlžný Kabellovi: {{ janci_to_kabell }} kč<br/>
+Kabell je dlžný Filipovi: {{ kabell_to_filip |floatformat:2}} kč <br/>
+Filip je dlžný Jančimu: {{ filip_to_janci |floatformat:2}} kč<br/>
+Janči je dlžný Kabellovi: {{ janci_to_kabell |floatformat:2}} kč<br/>
 {% elif smer == 2 %}
-    Filip je dlžný Kabellovi: {{ kabell_to_filip }} kč <br/>
-Janči je dlžný Filipovi: {{ filip_to_janci }} kč<br/>
-Kabell je dlžný Jančimu: {{ janci_to_kabell }} kč<br/>
+    Filip je dlžný Kabellovi: {{ kabell_to_filip |floatformat:2}} kč <br/>
+Janči je dlžný Filipovi: {{ filip_to_janci |floatformat:2}} kč<br/>
+Kabell je dlžný Jančimu: {{ janci_to_kabell |floatformat:2}} kč<br/>
 </h3>
 {% endif %}
 <br/>
