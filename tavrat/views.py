@@ -54,25 +54,26 @@ def index(request,messages=[]):
 
 
     najm = min([kabell_to_filip,filip_to_janci,janci_to_kabell])
+    
     kabell_to_filip -= najm
     filip_to_janci -= najm
     janci_to_kabell -=najm
 
-
+    smer = 1
+    
     najv = max([kabell_to_filip,filip_to_janci,janci_to_kabell])
 
     sucet = kabell_to_filip + filip_to_janci + janci_to_kabell
 
     sucet1 = abs(kabell_to_filip + filip_to_janci + janci_to_kabell-3*najv)
 
-    smer = 1
 
     if sucet>sucet1:
         smer=2
         kabell_to_filip = abs(kabell_to_filip - najv)
         filip_to_janci = abs(filip_to_janci - najv)
         janci_to_kabell = abs(janci_to_kabell - najv)
-
+    
     return render_to_response('index.html', locals())
 
 

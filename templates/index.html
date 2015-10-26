@@ -1,5 +1,13 @@
 <html>
+<head>
+    <title>Ta vráť čo si si požičal</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
 <body>
+<div class="container">
 <form method="post" action="/">
     Kto <select name="kto">
             <option value="filip">Filip</option>
@@ -17,7 +25,7 @@
     <input type="submit" value="odosli">
 
 </form>
-
+<h3>
 {% if smer == 1 %}
 Kabell je dlžný Filipovi: {{ kabell_to_filip }} kč <br/>
 Filip je dlžný Jančimu: {{ filip_to_janci }} kč<br/>
@@ -26,34 +34,34 @@ Janči je dlžný Kabellovi: {{ janci_to_kabell }} kč<br/>
     Filip je dlžný Kabellovi: {{ kabell_to_filip }} kč <br/>
 Janči je dlžný Filipovi: {{ filip_to_janci }} kč<br/>
 Kabell je dlžný Jančimu: {{ janci_to_kabell }} kč<br/>
-
+</h3>
 {% endif %}
 <br/>
 
-Kabell:<br/>
-<table>
-<tr><td>Kto</td><td>Komu</td><td>Poznamka</td><td>Kolko</td><td>Kedy</td></tr>
+<h2>Kabell</h2><br/>
+<table class="table">
+<tr><td><label>Kto</label></td><td><label>Komu</label></td><td><label>Poznamka</label></td><td><label>Kolko</label></td><td><label>Kedy</label></td></tr>
 {% for item in kabell %}
     <tr><td>{{ item.kto }} </td><td>{{ item.komu }}</td><td>{{ item.poznamka }}</td><td>{{ item.kolko }}</td><td>{{ item.datum }}</td><td><a href="/delete/{{ item.id }}">Zmazat</a></td></tr>
 {% endfor %}
 </table><br/><br/>
 
-Filip:<br/>
-<table>
-<tr><td>Kto</td><td>Komu</td><td>Poznamka</td><td>Kolko</td><td>Kedy</td></tr>
+<h2>Filip</h2><br/>
+<table class="table">
+<tr><td><label>Kto</label></td><td><label>Komu</label></td><td><label>Poznamka</label></td><td><label>Kolko</label></td><td><label>Kedy</label></td></tr>
 {% for item in filip %}
     <tr><td>{{ item.kto }} </td><td>{{ item.komu }}</td><td>{{ item.poznamka }}</td><td>{{ item.kolko }}</td><td>{{ item.datum }}</td><td><a href="/delete/{{ item.id }}">Zmazat</a></td></tr>
 {% endfor %}
 </table><br/><br/>
 
-Janci:<br/>
-<table>
-<tr><td>Kto</td><td>Komu</td><td>Poznamka</td><td>Kolko</td><td>Kedy</td></tr>
+<h2>Janci</h2><br/>
+<table class="table">
+<tr><td><label>Kto</label></td><td><label>Komu</label></td><td><label>Poznamka</label></td><td><label>Kolko</label></td><td><label>Kedy</label></td></tr>
 {% for item in janci %}
     <tr><td>{{ item.kto }} </td><td>{{ item.komu }}</td><td>{{ item.poznamka }}</td><td>{{ item.kolko }}</td><td>{{ item.datum }}</td><td><a href="/delete/{{ item.id }}">Zmazat</a></td></tr>
 {% endfor %}
 </table>
-
+</div>
 
 </body>
 </html>
