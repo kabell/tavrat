@@ -12,7 +12,7 @@ class Owe:
         self.amount = c
 
 
-def index(request,messages=[]):
+def index(request,language='sk'):
 
     ###########
     # SETTINGS
@@ -26,10 +26,6 @@ def index(request,messages=[]):
 
     #currency
     mena = u'kč'
-
-    #language - available sk,en
-    language = 'sk'
-
 
     if request.POST:
         kto = request.POST.get(key="kto")
@@ -93,7 +89,7 @@ def index(request,messages=[]):
     for x in users:
         for y in users:
             if table[x][y]>0:
-                    owes.append(Owe(users[x][0], users[y][1], table[x][y]/100))
+                    owes.append(Owe(users[x][0], users[y][1], table[x][y]/100.0))
 
     return render_to_response('index_'+language+'.html', locals())
 
