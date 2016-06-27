@@ -1,80 +1,100 @@
 from django.shortcuts import render_to_response
-from django.template import RequestContext
 from tavrat.models import Item
+from django.template.defaulttags import register
 import datetime
 
-FILIP = 'filip'
-KABELL = 'kabell'
-JANCI = 'janci'
+
+class Owe:
+    def __init__(self, a,b,c):
+        self.who = a
+        self.whom = b
+        self.amount = c
+
 
 def index(request,messages=[]):
+
+    ###########
+    # SETTINGS
+    ###########
+
+    #It's dictionary, so it contains users like nick:[fullname,fullname in dativ(only for czechoslovaks names)]
+    #examle users = {'john':['John Smith','John Smithovi']}
+
+    #users = {}
+    users = {'filip': ['Filip','Filipovi'], 'kabell': ['Kabell','Kabellovi'], 'janci': ['Janči','Jančimu'],'js': ['JS','JS'] }
+
+    #currency
+    mena = u'kč'
+
+    #language - available sk,en
+    language = 'sk'
+
 
     if request.POST:
         kto = request.POST.get(key="kto")
         komu = request.POST.get(key="komu")
         poznamka = request.POST.get(key="poznamka")
-        kolko = float(request.POST.get(key="kolko").replace(',','.'))
+        kolko = float(request.POST.get(key="kolko").replace(',', '.'))
         datum = datetime.datetime.now().date()
         zmazane = False
         i = Item(kto=kto, komu=komu, poznamka=poznamka,kolko=kolko, datum=datum,zmazane=zmazane)
         i.save()
 
-    kabell_to_filip = 0.0
-    filip_to_janci = 0.0
-    janci_to_kabell = 0.0
+    table = {}
+    history = {}
+
+    for i in users:
+        table[i] = {}
+        history[i] = []
+        for j in users:
+            table[i][j] = 0
 
 
-    kabell=[]
-    for x in Item.objects.filter(kto=KABELL):
-        if not x.zmazane:
-            if x.komu == FILIP:
-                kabell_to_filip += x.kolko
-            elif x.komu == JANCI:
-                janci_to_kabell -= x.kolko
-            kabell.append(x)
+    for x in Item.objects.filter(zmazane=False):
+        table[x.kto][x.komu] += int(x.kolko*100)
+        history[x.kto].append(x)
 
-    filip=[]
-    for x in Item.objects.filter(kto=FILIP):
-        if not x.zmazane:
-            if x.komu == KABELL:
-                kabell_to_filip -= x.kolko
-            elif x.komu == JANCI:
-                filip_to_janci += x.kolko
-            filip.append(x)
+    #pre istotu keby sa to náhodou zacyklilo
+    for i in range(100000):
+        ok = False
 
-    janci=[]
-    for x in Item.objects.filter(kto=JANCI):
-        if not x.zmazane:
-            if x.komu == FILIP:
-                filip_to_janci -= x.kolko
-            elif x.komu == KABELL:
-                janci_to_kabell += x.kolko
-            janci.append(x)
+        #odstranime zaporne hrany
+        for x in users:
+            for y in users:
+                if x == y:
+                    continue
+                if table[x][y]<0:
+                    table[y][x] += -table[x][y]
+                    ok = True
 
 
+        #aj x dlzi y a y dlzi z, tak to prehod na x dlzi z
+        for x in users:
+            for y in users:
+                for z in users:
+                    if (not (x == y or y==z)) and table[x][y] > 0 and table[y][z] > 0:
+                        mi = min(table[x][y],table[y][z])
+                        table[x][y] -= mi
+                        table[y][z] -= mi
+                        table[x][z] += mi
+                        ok = True
 
-    najm = min([kabell_to_filip,filip_to_janci,janci_to_kabell])
-    
-    kabell_to_filip -= najm
-    filip_to_janci -= najm
-    janci_to_kabell -=najm
+        #nikto nedlzi sam sebe
+        for x in users:
+            table[x][x] = 0
 
-    smer = 1
-    
-    najv = max([kabell_to_filip,filip_to_janci,janci_to_kabell])
+        #ak si nespravil 6iadnu zmenu, tak konci
+        if not ok:
+            break
 
-    sucet = kabell_to_filip + filip_to_janci + janci_to_kabell
+    owes = []
+    #roztriedime dlhy podla usera
+    for x in users:
+        for y in users:
+            if table[x][y]>0:
+                    owes.append(Owe(users[x][0], users[y][1], table[x][y]/100))
 
-    sucet1 = abs(kabell_to_filip + filip_to_janci + janci_to_kabell-3*najv)
-
-
-    if sucet>sucet1:
-        smer=2
-        kabell_to_filip = abs(kabell_to_filip - najv)
-        filip_to_janci = abs(filip_to_janci - najv)
-        janci_to_kabell = abs(janci_to_kabell - najv)
-    
-    return render_to_response('index.html', locals())
+    return render_to_response('index_'+language+'.html', locals())
 
 
 def delete(request,id):
@@ -83,3 +103,7 @@ def delete(request,id):
     obj.save()
 
     return index(request,['Polozka bola uspesne zmazana. '])
+
+@register.filter
+def get_item(dictionary, key):
+    return dictionary[key]

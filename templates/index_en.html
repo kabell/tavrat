@@ -1,0 +1,48 @@
+<html>
+<head>
+    <title>TaVrat 2.0 - Don't forget your owes</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+<form method="post" action="/">
+    Who <select name="kto">
+        {% for user in users %}
+            <option value="{{ user }}">{{ users|get_item:user|get_item:0 }}</option>
+        {% endfor %}
+        </select>
+
+    Whom <select name="komu">
+        {% for user in users %}
+            <option value="{{ user }}">{{ users|get_item:user|get_item:1 }}</option>
+        {% endfor %}
+        </select>
+    Comment <input type="text" name="poznamka"/>
+    Amount <input type="text" name="kolko"/>
+    <input type="submit" value="Submit">
+
+</form>
+<h3>
+{% for owe in owes %}
+         {{ owe.who }} owes {{ owe.whom }}: {{ owe.amount }} {{ mena }} <br/>
+{% endfor %}
+</h3>
+<br/>
+
+{% for user in history %}
+<h2>{{ users|get_item:user|get_item:0}}</h2><br/>
+<table class="table">
+<tr><td><label>Who</label></td><td><label>Whom</label></td><td><label>Comment</label></td><td><label>Amount</label></td><td><label>Date</label></td></tr>
+{% for item in history|get_item:user %}
+    <tr><td>{{ users|get_item:item.kto|get_item:0 }} </td><td>{{ users|get_item:item.komu|get_item:1 }}</td><td>{{ item.poznamka }}</td><td>{{ item.kolko }}</td><td>{{ item.datum }}</td><td><a href="/delete/{{ item.id }}">delete</a></td></tr>
+{% endfor %}
+</table><br/><br/>
+{% endfor %}
+
+
+
+</body>
+</html>
