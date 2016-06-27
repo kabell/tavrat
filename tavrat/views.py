@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.shortcuts import render_to_response
 from tavrat.models import Item
 from django.template.defaulttags import register
